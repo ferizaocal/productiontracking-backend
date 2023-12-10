@@ -22,6 +22,7 @@ public class User extends BaseEntity {
         private String phone;
         private String password;
         private String status = Status.ACTIVE.toString();
+        private Long activeProductionModelId;
         @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
         @JoinTable(name = "USER_ROLES", joinColumns = {
                         @JoinColumn(name = "USER_ID")
