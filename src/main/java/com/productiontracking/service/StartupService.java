@@ -5,7 +5,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
-import com.productiontracking.dto.request.CreateUserDto;
+import com.productiontracking.dto.request.CreateUserRequest;
 import com.productiontracking.entity.Role;
 import com.productiontracking.repository.RoleRepository;
 
@@ -33,7 +33,8 @@ public class StartupService {
         if (count == 0) {
             logger.info("No user found, creating default user");
             userService.create(
-                    new CreateUserDto("Özkan", "Kocakaplan", "ozkankocakaplan07@gmail.com", "+905313179397", "admin",
+                    new CreateUserRequest("Özkan", "Kocakaplan", "ozkankocakaplan07@gmail.com", "+905313179397",
+                            "admin",
                             Role.RoleName.ADMIN.toString()));
             logger.info("Default user created");
         }

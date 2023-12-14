@@ -5,9 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.productiontracking.dto.request.CreateProductionModel;
+import com.productiontracking.dto.request.CreateProductionRequest;
 import com.productiontracking.dto.response.ServiceResponse;
 import com.productiontracking.entity.ProductionModel;
+import com.productiontracking.entity.ProductionModel.Status;
 import com.productiontracking.exception.NotFoundProductionModel;
 import com.productiontracking.mapper.ModelMapperService;
 import com.productiontracking.repository.ProductionModelRepository;
@@ -38,7 +39,7 @@ public class ProductionModelServiceImpl implements ProductionModelService {
     }
 
     @Override
-    public ServiceResponse<ProductionModel> create(CreateProductionModel productionModel) {
+    public ServiceResponse<ProductionModel> create(CreateProductionRequest productionModel) {
         ServiceResponse<ProductionModel> response = new ServiceResponse<>();
         try {
             ProductionModel newProductionModel = modelMapperService.forRequest().map(productionModel,
@@ -60,8 +61,47 @@ public class ProductionModelServiceImpl implements ProductionModelService {
             if (existingProductionModel == null) {
                 throw new NotFoundProductionModel(productionModel.getId());
             }
-            ProductionModel updatedProductionModel = productionModelRepository.save(productionModel);
-            response.setIsSuccessful(true).setEntity(updatedProductionModel);
+            existingProductionModel.setName(productionModel.getName());
+            existingProductionModel.setIcon(productionModel.getIcon());
+            existingProductionModel.setStatus(productionModel.getStatus());
+            productionModelRepository.save(existingProductionModel);
+            response.setIsSuccessful(true).setEntity(existingProductionModel);
+        } catch (Exception e) {
+            response.setExceptionMessage(e.getMessage().toString()).setHasExceptionError(true);
+        }
+        return response;
+    }
+
+    @Override
+    public ServiceResponse<ProductionModel> delete(Long id) {
+        ServiceResponse<ProductionModel> response = new ServiceResponse<>();
+        try {
+            ProductionModel existingProductionModel = productionModelRepository.findById(id)
+                    .orElse(null);
+            if (existingProductionModel == null) {
+                throw new NotFoundProductionModel(id);
+            }
+            existingProductionModel.setIsDeleted(true);
+            productionModelRepository.save(existingProductionModel);
+            response.setIsSuccessful(true).setEntity(existingProductionModel);
+        } catch (Exception e) {
+            response.setExceptionMessage(e.getMessage().toString()).setHasExceptionError(true);
+        }
+        return response;
+    }
+
+    @Override
+    public ServiceResponse<ProductionModel> updateStatusById(Long id, Status status) {
+        ServiceResponse<ProductionModel> response = new ServiceResponse<>();
+        try {
+            ProductionModel existingProductionModel = productionModelRepository.findById(id)
+                    .orElse(null);
+            if (existingProductionModel == null) {
+                throw new NotFoundProductionModel(id);
+            }
+            existingProductionModel.setStatus(status.toString());
+            productionModelRepository.save(existingProductionModel);
+            response.setIsSuccessful(true).setEntity(existingProductionModel);
         } catch (Exception e) {
             response.setExceptionMessage(e.getMessage().toString()).setHasExceptionError(true);
         }

@@ -1,13 +1,18 @@
 package com.productiontracking.service;
 
-import com.productiontracking.dto.request.CreateProductionModel;
+import com.productiontracking.dto.request.CreateProductionRequest;
 import com.productiontracking.dto.response.ServiceResponse;
 import com.productiontracking.entity.ProductionModel;
 
 public interface ProductionModelService {
     ServiceResponse<ProductionModel> findAll();
 
-    ServiceResponse<ProductionModel> create(CreateProductionModel productionModel);
+    ServiceResponse<ProductionModel> create(CreateProductionRequest productionModel);
 
     ServiceResponse<ProductionModel> update(ProductionModel productionModel);
+
+    ServiceResponse<ProductionModel> delete(Long id);
+
+    ServiceResponse<ProductionModel> updateStatusById(Long id, ProductionModel.Status status);
+
 }

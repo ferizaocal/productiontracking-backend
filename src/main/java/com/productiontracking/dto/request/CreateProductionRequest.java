@@ -1,6 +1,6 @@
 package com.productiontracking.dto.request;
 
-public class CreateProductionModel {
+public class CreateProductionRequest {
     String name;
     String icon;
 }

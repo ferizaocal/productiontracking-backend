@@ -3,7 +3,7 @@ package com.productiontracking.dto.request;
 import lombok.Data;
 
 @Data
-public class LoginDto {
+public class LoginRequest {
     private String email;
     private String password;
 }

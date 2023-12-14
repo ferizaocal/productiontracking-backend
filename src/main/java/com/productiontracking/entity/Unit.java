@@ -9,5 +9,5 @@ import lombok.Data;
 @Table(name = "units")
 @Data
 public class Unit extends BaseEntity {
-
+    private String name;
 }

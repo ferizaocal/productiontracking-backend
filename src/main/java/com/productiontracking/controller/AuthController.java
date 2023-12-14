@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.productiontracking.dto.request.LoginDto;
+import com.productiontracking.dto.request.LoginRequest;
 import com.productiontracking.dto.response.LoginResponse;
 import com.productiontracking.dto.response.ServiceResponse;
 import com.productiontracking.security.TokenProvider;
@@ -32,7 +32,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
-    public ServiceResponse<LoginResponse> forMobile(@RequestBody LoginDto _pLoginDto) {
+    public ServiceResponse<LoginResponse> forMobile(@RequestBody LoginRequest _pLoginDto) {
         logger.info("AuthController.forMobile()");
         return _userService.forMobilelogin(_pLoginDto, _authenticationManager, _jwtTokenProvider);
     }

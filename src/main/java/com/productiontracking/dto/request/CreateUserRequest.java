@@ -3,7 +3,7 @@ package com.productiontracking.dto.request;
 import lombok.Data;
 
 @Data
-public class CreateUserDto {
+public class CreateUserRequest {
     private String firstName;
     private String lastName;
     private String email;
@@ -11,7 +11,8 @@ public class CreateUserDto {
     private String password;
     private String role;
 
-    public CreateUserDto(String firstName, String lastName, String email, String phone, String password, String role) {
+    public CreateUserRequest(String firstName, String lastName, String email, String phone, String password,
+            String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -20,7 +21,7 @@ public class CreateUserDto {
         this.role = role;
     }
 
-    public CreateUserDto() {
+    public CreateUserRequest() {
         super();
     }
 }

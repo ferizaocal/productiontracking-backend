@@ -12,8 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 
-import com.productiontracking.dto.request.CreateUserDto;
-import com.productiontracking.dto.request.LoginDto;
+import com.productiontracking.dto.request.CreateUserRequest;
+import com.productiontracking.dto.request.LoginRequest;
 import com.productiontracking.dto.response.LoginResponse;
 import com.productiontracking.dto.response.ServiceResponse;
 import com.productiontracking.dto.response.UserResponse;
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServiceResponse<LoginResponse> forMobilelogin(LoginDto _pUser,
+    public ServiceResponse<LoginResponse> forMobilelogin(LoginRequest _pUser,
             AuthenticationManager _pAuthenticationManager,
             TokenProvider _pJwtTokenProvider) {
         ServiceResponse<LoginResponse> _vResponse = new ServiceResponse<LoginResponse>();
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServiceResponse<UserResponse> create(CreateUserDto _pUser) {
+    public ServiceResponse<UserResponse> create(CreateUserRequest _pUser) {
         ServiceResponse<UserResponse> _vResponse = new ServiceResponse<UserResponse>();
         try {
             User _vUser = _modelMapperService.forRequest().map(_pUser, User.class);
