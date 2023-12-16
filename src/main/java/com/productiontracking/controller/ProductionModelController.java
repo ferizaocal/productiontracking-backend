@@ -1,5 +1,6 @@
 package com.productiontracking.controller;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,7 +27,7 @@ public class ProductionModelController {
         return productionModelService.create(createProductionRequest);
     }
 
-    @RequestMapping(value = "/production-model", method = RequestMethod.POST)
+    @RequestMapping(value = "/production-model", method = RequestMethod.PUT)
     public ServiceResponse<?> update(@RequestBody ProductionModel productionModel) {
         return productionModelService.update(productionModel);
     }
@@ -36,8 +37,8 @@ public class ProductionModelController {
         return productionModelService.delete(id);
     }
 
-    @RequestMapping(value = "/production-model", method = RequestMethod.PUT)
-    public ServiceResponse<?> updateStatusById(@RequestBody Long id, ProductionModel.Status status) {
+    @RequestMapping(value = "/production-model/{status}/{id}", method = RequestMethod.PUT)
+    public ServiceResponse<?> updateStatusById(@PathVariable Long id, @PathVariable ProductionModel.Status status) {
         return productionModelService.updateStatusById(id, status);
     }
 

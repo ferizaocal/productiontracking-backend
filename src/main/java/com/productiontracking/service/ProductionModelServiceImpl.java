@@ -9,6 +9,7 @@ import com.productiontracking.dto.request.CreateProductionRequest;
 import com.productiontracking.dto.response.ServiceResponse;
 import com.productiontracking.entity.ProductionModel;
 import com.productiontracking.entity.ProductionModel.Status;
+import com.productiontracking.exception.DuplicateProductionModel;
 import com.productiontracking.exception.NotFoundProductionModel;
 import com.productiontracking.mapper.ModelMapperService;
 import com.productiontracking.repository.ProductionModelRepository;
@@ -42,6 +43,10 @@ public class ProductionModelServiceImpl implements ProductionModelService {
     public ServiceResponse<ProductionModel> create(CreateProductionRequest productionModel) {
         ServiceResponse<ProductionModel> response = new ServiceResponse<>();
         try {
+            ProductionModel exitsProductionModel = productionModelRepository.findByName(productionModel.getName());
+            if (exitsProductionModel != null) {
+                throw new DuplicateProductionModel(productionModel.getName());
+            }
             ProductionModel newProductionModel = modelMapperService.forRequest().map(productionModel,
                     ProductionModel.class);
             productionModelRepository.save(newProductionModel);
@@ -56,6 +61,13 @@ public class ProductionModelServiceImpl implements ProductionModelService {
     public ServiceResponse<ProductionModel> update(ProductionModel productionModel) {
         ServiceResponse<ProductionModel> response = new ServiceResponse<>();
         try {
+
+            ProductionModel exitsProductionModelByName = productionModelRepository
+                    .findByName(productionModel.getName());
+            if (exitsProductionModelByName != null
+                    && !exitsProductionModelByName.getId().equals(productionModel.getId())) {
+                throw new DuplicateProductionModel(productionModel.getName());
+            }
             ProductionModel existingProductionModel = productionModelRepository.findById(productionModel.getId())
                     .orElse(null);
             if (existingProductionModel == null) {
@@ -94,11 +106,13 @@ public class ProductionModelServiceImpl implements ProductionModelService {
     public ServiceResponse<ProductionModel> updateStatusById(Long id, Status status) {
         ServiceResponse<ProductionModel> response = new ServiceResponse<>();
         try {
+
             ProductionModel existingProductionModel = productionModelRepository.findById(id)
                     .orElse(null);
             if (existingProductionModel == null) {
                 throw new NotFoundProductionModel(id);
             }
+
             existingProductionModel.setStatus(status.toString());
             productionModelRepository.save(existingProductionModel);
             response.setIsSuccessful(true).setEntity(existingProductionModel);

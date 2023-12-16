@@ -8,4 +8,5 @@ import com.productiontracking.entity.ProductionModel;
 @Repository
 public interface ProductionModelRepository extends JpaRepository<ProductionModel, Long> {
 
+    ProductionModel findByName(String name);
 }

@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "operations")
-public class Operation {
+public class Operation extends BaseEntity {
     private Long productionModelId;
     private int operationNumber;
     private String operationName;
