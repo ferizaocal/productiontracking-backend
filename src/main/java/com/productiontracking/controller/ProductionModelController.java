@@ -23,27 +23,28 @@ public class ProductionModelController {
     }
 
     @RequestMapping(value = "/production-model", method = RequestMethod.POST)
-    public ServiceResponse<?> create(@RequestBody CreateProductionRequest createProductionRequest) {
+    public ServiceResponse<ProductionModel> create(@RequestBody CreateProductionRequest createProductionRequest) {
         return productionModelService.create(createProductionRequest);
     }
 
     @RequestMapping(value = "/production-model", method = RequestMethod.PUT)
-    public ServiceResponse<?> update(@RequestBody ProductionModel productionModel) {
+    public ServiceResponse<ProductionModel> update(@RequestBody ProductionModel productionModel) {
         return productionModelService.update(productionModel);
     }
 
-    @RequestMapping(value = "/production-model", method = RequestMethod.DELETE)
-    public ServiceResponse<?> delete(@RequestBody Long id) {
+    @RequestMapping(value = "/production-model/{id}", method = RequestMethod.DELETE)
+    public ServiceResponse<ProductionModel> delete(@PathVariable Long id) {
         return productionModelService.delete(id);
     }
 
     @RequestMapping(value = "/production-model/{status}/{id}", method = RequestMethod.PUT)
-    public ServiceResponse<?> updateStatusById(@PathVariable Long id, @PathVariable ProductionModel.Status status) {
+    public ServiceResponse<ProductionModel> updateStatusById(@PathVariable Long id,
+            @PathVariable ProductionModel.Status status) {
         return productionModelService.updateStatusById(id, status);
     }
 
     @RequestMapping(value = "/production-models", method = RequestMethod.GET)
-    public ServiceResponse<?> getAllProductionModels() {
+    public ServiceResponse<ProductionModel> getAllProductionModels() {
         return productionModelService.findAll();
     }
 }

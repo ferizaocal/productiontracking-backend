@@ -1,6 +1,7 @@
 package com.productiontracking.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,8 @@ public class ProductionModelServiceImpl implements ProductionModelService {
         ServiceResponse<ProductionModel> response = new ServiceResponse<>();
         try {
             List<ProductionModel> productionModels = productionModelRepository.findAll();
+            productionModels = productionModels.stream().filter(productionModel -> !productionModel.getIsDeleted())
+                    .collect(Collectors.toList());
             response.setList(productionModels).setIsSuccessful(true);
         } catch (Exception e) {
             response.setExceptionMessage(e.getMessage().toString()).setHasExceptionError(true);
@@ -75,7 +78,6 @@ public class ProductionModelServiceImpl implements ProductionModelService {
             }
             existingProductionModel.setName(productionModel.getName());
             existingProductionModel.setIcon(productionModel.getIcon());
-            existingProductionModel.setStatus(productionModel.getStatus());
             productionModelRepository.save(existingProductionModel);
             response.setIsSuccessful(true).setEntity(existingProductionModel);
         } catch (Exception e) {
