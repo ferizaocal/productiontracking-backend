@@ -9,10 +9,10 @@ public interface ProductionModelService {
 
     ServiceResponse<ProductionModel> create(CreateProductionRequest productionModel);
 
-    ServiceResponse<ProductionModel> update(ProductionModel productionModel);
-
     ServiceResponse<ProductionModel> delete(Long id);
 
-    ServiceResponse<ProductionModel> updateStatusById(Long id, ProductionModel.Status status);
+    ServiceResponse<ProductionModel> updateStatusById(Long id);
+
+    ServiceResponse<ProductionModel> findAllByActive();
 
 }

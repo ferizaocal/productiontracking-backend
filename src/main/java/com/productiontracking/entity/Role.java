@@ -15,10 +15,6 @@ public class Role extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "operationId", referencedColumnName = "id")
-    private RoleOperation roleOperation;
-
     public Role(String name) {
         this.name = name;
 
@@ -26,11 +22,6 @@ public class Role extends BaseEntity {
 
     public Role() {
         super();
-    }
-
-    public enum RoleName {
-        SUPERADMIN,
-        ADMIN
     }
 
     public enum Status {

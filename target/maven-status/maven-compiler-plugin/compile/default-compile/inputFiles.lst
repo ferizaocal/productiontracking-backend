@@ -4,6 +4,7 @@
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/mapper/ModelMapperService.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/service/StartupService.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/service/UserServiceImpl.java
+/Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/exception/NotFoundException.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/cache/CacheManagerImpl.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/entity/Fabric.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/dto/request/CreateUnitRequest.java
@@ -12,7 +13,6 @@
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/security/JwtUserDetails.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/mapper/ModelMapperServiceImpl.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/controller/FabricController.java
-/Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/exception/DuplicateProductionModel.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/dto/request/UpdateRoleRequest.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/service/FabricModelServiceImpl.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/dto/response/RoleResponse.java
@@ -37,7 +37,6 @@
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/repository/FabricHistoryRepository.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/service/OperationService.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/repository/OperationRepository.java
-/Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/exception/NotFoundProductionModel.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/repository/RoleOperationRepository.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/service/RoleServiceImpl.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/config/WebSecurityConfig.java
@@ -45,12 +44,16 @@
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/service/FabricHistoryService.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/entity/User.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/security/JwtAuthenticationFilter.java
+/Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/controller/UserController.java
+/Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/dto/request/CreateOperationRequest.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/repository/RoleRepository.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/entity/ProductionModel.java
+/Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/exception/DuplicateOperationException.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/repository/UserRepository.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/entity/RoleOperation.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/controller/OperationController.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/dto/response/FabricModelResponse.java
+/Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/dto/request/UpdateOperationRequest.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/service/FabricModelService.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/dto/response/BaseResponse.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/config/MailConfig.java
@@ -71,6 +74,7 @@
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/dto/request/CreateUserRequest.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/entity/Role.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/service/FabricService.java
+/Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/exception/DuplicateProductionModelException.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/service/ProductionModelService.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/service/FabricServiceImpl.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/security/TokenProvider.java

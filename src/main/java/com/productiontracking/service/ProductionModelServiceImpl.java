@@ -10,8 +10,8 @@ import com.productiontracking.dto.request.CreateProductionRequest;
 import com.productiontracking.dto.response.ServiceResponse;
 import com.productiontracking.entity.ProductionModel;
 import com.productiontracking.entity.ProductionModel.Status;
-import com.productiontracking.exception.DuplicateProductionModel;
-import com.productiontracking.exception.NotFoundProductionModel;
+import com.productiontracking.exception.DuplicateProductionModelException;
+import com.productiontracking.exception.NotFoundException;
 import com.productiontracking.mapper.ModelMapperService;
 import com.productiontracking.repository.ProductionModelRepository;
 
@@ -46,40 +46,15 @@ public class ProductionModelServiceImpl implements ProductionModelService {
     public ServiceResponse<ProductionModel> create(CreateProductionRequest productionModel) {
         ServiceResponse<ProductionModel> response = new ServiceResponse<>();
         try {
-            ProductionModel exitsProductionModel = productionModelRepository.findByName(productionModel.getName());
+            ProductionModel exitsProductionModel = productionModelRepository
+                    .findByNameAndIsDeleted(productionModel.getName(), false);
             if (exitsProductionModel != null) {
-                throw new DuplicateProductionModel(productionModel.getName());
+                throw new DuplicateProductionModelException(productionModel.getName());
             }
             ProductionModel newProductionModel = modelMapperService.forRequest().map(productionModel,
                     ProductionModel.class);
             productionModelRepository.save(newProductionModel);
             response.setIsSuccessful(true).setEntity(newProductionModel);
-        } catch (Exception e) {
-            response.setExceptionMessage(e.getMessage().toString()).setHasExceptionError(true);
-        }
-        return response;
-    }
-
-    @Override
-    public ServiceResponse<ProductionModel> update(ProductionModel productionModel) {
-        ServiceResponse<ProductionModel> response = new ServiceResponse<>();
-        try {
-
-            ProductionModel exitsProductionModelByName = productionModelRepository
-                    .findByName(productionModel.getName());
-            if (exitsProductionModelByName != null
-                    && !exitsProductionModelByName.getId().equals(productionModel.getId())) {
-                throw new DuplicateProductionModel(productionModel.getName());
-            }
-            ProductionModel existingProductionModel = productionModelRepository.findById(productionModel.getId())
-                    .orElse(null);
-            if (existingProductionModel == null) {
-                throw new NotFoundProductionModel(productionModel.getId());
-            }
-            existingProductionModel.setName(productionModel.getName());
-            existingProductionModel.setIcon(productionModel.getIcon());
-            productionModelRepository.save(existingProductionModel);
-            response.setIsSuccessful(true).setEntity(existingProductionModel);
         } catch (Exception e) {
             response.setExceptionMessage(e.getMessage().toString()).setHasExceptionError(true);
         }
@@ -93,7 +68,7 @@ public class ProductionModelServiceImpl implements ProductionModelService {
             ProductionModel existingProductionModel = productionModelRepository.findById(id)
                     .orElse(null);
             if (existingProductionModel == null) {
-                throw new NotFoundProductionModel(id);
+                throw new NotFoundException("Not found production model id: " + id);
             }
             existingProductionModel.setIsDeleted(true);
             productionModelRepository.save(existingProductionModel);
@@ -105,19 +80,37 @@ public class ProductionModelServiceImpl implements ProductionModelService {
     }
 
     @Override
-    public ServiceResponse<ProductionModel> updateStatusById(Long id, Status status) {
+    public ServiceResponse<ProductionModel> updateStatusById(Long id) {
         ServiceResponse<ProductionModel> response = new ServiceResponse<>();
         try {
 
             ProductionModel existingProductionModel = productionModelRepository.findById(id)
                     .orElse(null);
             if (existingProductionModel == null) {
-                throw new NotFoundProductionModel(id);
+                throw new NotFoundException("Not found production model id: " + id);
             }
 
-            existingProductionModel.setStatus(status.toString());
+            existingProductionModel.setStatus(
+                    existingProductionModel.getStatus().equals(ProductionModel.Status.ACTIVE.toString())
+                            ? Status.INACTIVE.toString()
+                            : Status.ACTIVE.toString());
             productionModelRepository.save(existingProductionModel);
             response.setIsSuccessful(true).setEntity(existingProductionModel);
+        } catch (Exception e) {
+            response.setExceptionMessage(e.getMessage().toString()).setHasExceptionError(true);
+        }
+        return response;
+    }
+
+    @Override
+    public ServiceResponse<ProductionModel> findAllByActive() {
+        ServiceResponse<ProductionModel> response = new ServiceResponse<>();
+        try {
+            List<ProductionModel> productionModels = productionModelRepository
+                    .findAllByStatus(Status.ACTIVE.toString());
+            productionModels = productionModels.stream().filter(productionModel -> !productionModel.getIsDeleted())
+                    .collect(Collectors.toList());
+            response.setList(productionModels).setIsSuccessful(true);
         } catch (Exception e) {
             response.setExceptionMessage(e.getMessage().toString()).setHasExceptionError(true);
         }

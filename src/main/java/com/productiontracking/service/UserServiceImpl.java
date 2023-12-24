@@ -17,9 +17,12 @@ import com.productiontracking.dto.request.LoginRequest;
 import com.productiontracking.dto.response.LoginResponse;
 import com.productiontracking.dto.response.ServiceResponse;
 import com.productiontracking.dto.response.UserResponse;
+import com.productiontracking.entity.ProductionModel;
 import com.productiontracking.entity.Role;
 import com.productiontracking.entity.User;
+import com.productiontracking.exception.NotFoundException;
 import com.productiontracking.mapper.ModelMapperService;
+import com.productiontracking.repository.ProductionModelRepository;
 import com.productiontracking.repository.RoleRepository;
 import com.productiontracking.repository.UserRepository;
 import com.productiontracking.security.TokenProvider;
@@ -33,13 +36,16 @@ public class UserServiceImpl implements UserService {
     private UserRepository _userRepository;
     private PasswordEncoder _passwordEncoder;
     private RoleRepository _roleRepository;
+    private ProductionModelRepository _productionModelRepository;
 
     public UserServiceImpl(UserRepository _pUserRepository, ModelMapperService _pModelMapperService,
-            PasswordEncoder _pPasswordEncoder, RoleRepository _pRoleRepository) {
+            PasswordEncoder _pPasswordEncoder, RoleRepository _pRoleRepository,
+            ProductionModelRepository _pProductionModelRepository) {
         _userRepository = _pUserRepository;
         _modelMapperService = _pModelMapperService;
         _passwordEncoder = _pPasswordEncoder;
         _roleRepository = _pRoleRepository;
+        _productionModelRepository = _pProductionModelRepository;
     }
 
     @Override
@@ -87,5 +93,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public Long count() {
         return _userRepository.count();
+    }
+
+    @Override
+    public ServiceResponse<UserResponse> updateActiveProductionModelId(Long _pId, Long _pProductionModelId) {
+        ServiceResponse<UserResponse> _vResponse = new ServiceResponse<UserResponse>();
+        try {
+            ProductionModel _vProductionModel = _productionModelRepository.findById(_pProductionModelId)
+                    .orElseThrow(() -> new NotFoundException("Production model not found id:" + _pProductionModelId));
+
+            User _vUser = _userRepository.findById(_pId)
+                    .orElseThrow(() -> new NotFoundException("User not found id:" + _pId));
+            _vUser.setActiveProductionModelId(_vProductionModel.getId());
+            _vUser = _userRepository.save(_vUser);
+            UserResponse _vUserResponse = _modelMapperService.forResponse().map(_vUser, UserResponse.class);
+            _vResponse.setEntity(_vUserResponse)
+                    .setIsSuccessful(true);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            _vResponse.setExceptionMessage(e.getMessage())
+                    .setHasExceptionError(true);
+        }
+        return _vResponse;
     }
 }

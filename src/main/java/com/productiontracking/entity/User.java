@@ -27,7 +27,7 @@ public class User extends BaseEntity {
         @JoinTable(name = "USER_ROLES", joinColumns = {
                         @JoinColumn(name = "USER_ID")
         }, inverseJoinColumns = {
-                        @JoinColumn(name = "ROLE_ID") })
+                        @JoinColumn(name = "ROLES_ID") })
         Set<Role> roles;
 
         public enum Status {

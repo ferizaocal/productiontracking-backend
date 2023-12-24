@@ -35,7 +35,7 @@ public class StartupService {
             userService.create(
                     new CreateUserRequest("Özkan", "Kocakaplan", "ozkankocakaplan07@gmail.com", "+905313179397",
                             "admin",
-                            Role.RoleName.ADMIN.toString()));
+                            "Admin"));
             logger.info("Default user created");
         }
     }
@@ -44,7 +44,7 @@ public class StartupService {
         Long count = roleRepository.count();
         if (count == 0) {
             logger.info("No role found, creating default role");
-            roleRepository.save(new Role(Role.RoleName.ADMIN.toString()));
+            roleRepository.save(new Role("Admin"));
             logger.info("Default role created");
 
         }

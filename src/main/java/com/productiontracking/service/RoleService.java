@@ -12,8 +12,6 @@ public interface RoleService {
 
     ServiceResponse<RoleResponse> deleteRole(Long id);
 
-    ServiceResponse<RoleResponse> getRole(Long id);
-
     ServiceResponse<RoleResponse> findAll();
 
 }

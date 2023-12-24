@@ -1,8 +1,18 @@
 package com.productiontracking.controller;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.productiontracking.dto.request.CreateRoleRequest;
+import com.productiontracking.dto.request.UpdateRoleRequest;
+import com.productiontracking.dto.response.RoleResponse;
+import com.productiontracking.dto.response.ServiceResponse;
 import com.productiontracking.service.RoleService;
 
 @RestController
@@ -14,5 +24,25 @@ public class RoleController {
     public RoleController(RoleService roleService) {
         super();
         this.roleService = roleService;
+    }
+
+    @PostMapping(value = "/role")
+    public ServiceResponse<RoleResponse> createRole(@RequestBody CreateRoleRequest request) {
+        return roleService.createRole(request);
+    }
+
+    @PutMapping(value = "/role")
+    public ServiceResponse<RoleResponse> updateRole(@RequestBody UpdateRoleRequest request) {
+        return roleService.updateRole(request);
+    }
+
+    @GetMapping(value = "/roles")
+    public ServiceResponse<RoleResponse> getRoles() {
+        return roleService.findAll();
+    }
+
+    @DeleteMapping(value = "/role/{id}")
+    public ServiceResponse<RoleResponse> deleteRole(@PathVariable Long id) {
+        return roleService.deleteRole(id);
     }
 }

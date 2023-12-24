@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         String[] AllowRoutes = { "/api/v1/auth/**", "/api/v1/updatePasswordUsingEmail/**", "/api/v1/isKeyValid/**",
                 "/api/v1/updatePasswordUsingKey",
-                "/api/v1/updatePasswordUsingKey", "/api/v1/sendNotification", "/api/v1/**" };
+                "/api/v1/updatePasswordUsingKey", "/api/v1/sendNotification" };
 
         http.cors().and().csrf().disable()
                 .authorizeRequests()
