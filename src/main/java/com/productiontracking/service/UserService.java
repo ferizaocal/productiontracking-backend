@@ -16,6 +16,8 @@ public interface UserService {
 
     public ServiceResponse<UserResponse> create(CreateUserRequest _pUser);
 
+    public ServiceResponse<UserResponse> getFindAllByUserRole(Long roleId, Long getByUserId);
+
     public ServiceResponse<UserResponse> updateActiveProductionModelId(Long _pId, Long _pProductionModelId);
 
     public Long count();

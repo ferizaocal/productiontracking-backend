@@ -1,6 +1,7 @@
 package com.productiontracking.service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,9 +23,11 @@ import com.productiontracking.entity.Role;
 import com.productiontracking.entity.User;
 import com.productiontracking.exception.NotFoundException;
 import com.productiontracking.mapper.ModelMapperService;
+import com.productiontracking.model.UserRole;
 import com.productiontracking.repository.ProductionModelRepository;
 import com.productiontracking.repository.RoleRepository;
 import com.productiontracking.repository.UserRepository;
+import com.productiontracking.repository.UserRoleRepository;
 import com.productiontracking.security.TokenProvider;
 
 @Service
@@ -34,18 +37,20 @@ public class UserServiceImpl implements UserService {
     private ModelMapperService _modelMapperService;
 
     private UserRepository _userRepository;
+    private UserRoleRepository _userRoleRepository;
     private PasswordEncoder _passwordEncoder;
     private RoleRepository _roleRepository;
     private ProductionModelRepository _productionModelRepository;
 
     public UserServiceImpl(UserRepository _pUserRepository, ModelMapperService _pModelMapperService,
             PasswordEncoder _pPasswordEncoder, RoleRepository _pRoleRepository,
-            ProductionModelRepository _pProductionModelRepository) {
+            ProductionModelRepository _pProductionModelRepository, UserRoleRepository _pUserRoleRepository) {
         _userRepository = _pUserRepository;
         _modelMapperService = _pModelMapperService;
         _passwordEncoder = _pPasswordEncoder;
         _roleRepository = _pRoleRepository;
         _productionModelRepository = _pProductionModelRepository;
+        _userRoleRepository = _pUserRoleRepository;
     }
 
     @Override
@@ -74,6 +79,10 @@ public class UserServiceImpl implements UserService {
             User _vUser = _modelMapperService.forRequest().map(_pUser, User.class);
             Set<Role> _vRoles = new HashSet<>();
             Role _vRole = _roleRepository.findByName(_pUser.getRole());
+            if (_vRole == null) {
+                logger.info("Not found role: " + _pUser.getRole());
+                throw new NotFoundException("Not Found Role: " + _pUser.getRole());
+            }
             _vRoles.add(_vRole);
             _vUser.setPassword(_passwordEncoder.encode(_pUser.getPassword()));
             _vUser.setRoles(_vRoles);
@@ -116,4 +125,25 @@ public class UserServiceImpl implements UserService {
         }
         return _vResponse;
     }
+
+    @Override
+    public ServiceResponse<UserResponse> getFindAllByUserRole(Long roleId, Long getByUserId) {
+        ServiceResponse<UserResponse> _vResponse = new ServiceResponse<>();
+        try {
+            User _vUser = _userRepository.findById(getByUserId)
+                    .orElseThrow(() -> new NotFoundException("User not found id:" + getByUserId));
+            List<UserRole> users = _userRoleRepository.findByRoleIdAndProductionModelId(roleId,
+                    _vUser.getActiveProductionModelId());
+            List<UserResponse> _vUserResponse = users.stream()
+                    .map(user -> _modelMapperService.forResponse().map(user, UserResponse.class))
+                    .collect(Collectors.toList());
+            _vResponse.setList(_vUserResponse).setIsSuccessful(true);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            _vResponse.setExceptionMessage(e.getMessage())
+                    .setHasExceptionError(true);
+        }
+        return _vResponse;
+    }
+
 }

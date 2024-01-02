@@ -9,7 +9,11 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 
 @Data
@@ -27,7 +31,7 @@ public class User extends BaseEntity {
         @JoinTable(name = "USER_ROLES", joinColumns = {
                         @JoinColumn(name = "USER_ID")
         }, inverseJoinColumns = {
-                        @JoinColumn(name = "ROLES_ID") })
+                        @JoinColumn(name = "ROLE_ID") })
         Set<Role> roles;
 
         public enum Status {

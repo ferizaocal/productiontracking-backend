@@ -22,6 +22,7 @@
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/service/UnitService.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/entity/FabricHistory.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/dto/request/CreateFabricRequest.java
+/Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/model/UserRole.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/utils/CronUtils.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/entity/UserRole.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/service/ProductionModelServiceImpl.java
@@ -62,6 +63,7 @@
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/cache/CacheManagerService.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/service/FabricBrandServiceImpl.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/controller/RoleController.java
+/Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/exception/DuplicateRoleException.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/controller/ProductionModelController.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/model/NotificationModel.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/dto/request/CreateRoleRequest.java
@@ -83,6 +85,7 @@
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/dto/response/UserResponse.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/repository/FabricBrandRepository.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/ProductionTrackingApplication.java
+/Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/repository/UserRoleRepository.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/entity/FabricBrand.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/dto/response/FabricBrandResponse.java
 /Users/ozkan/Desktop/productiontracking-backend/src/main/java/com/productiontracking/repository/UnitRepository.java
